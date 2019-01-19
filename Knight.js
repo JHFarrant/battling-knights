@@ -63,7 +63,16 @@ class Knight {
   }
 
   /**
-   * Method for finding free items in the knights space
+   * Method for finding enemy knights in the knight's space
+   * @param {array} space 
+   */
+  findEnemy(space) {
+    const [enemy = null] = space.filter(el => el instanceof Knight && el !== this);
+    return enemy;
+  }
+
+  /**
+   * Method for finding free items in the knight's space
    * @param {array} space
    */
   findItem(space) {
