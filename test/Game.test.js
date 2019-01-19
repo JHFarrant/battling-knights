@@ -49,7 +49,6 @@ describe('Game', () => {
 
       it('should throw a syntax error with a string missing GAME-START & GAME-END', () => {
         const invalidMoveStringA = `R:S\nR:S\nB:E\nG:N\nY:N`;
-
         expect(() => Game.parseTurnString(invalidMoveStringA)).to.throw(SyntaxError);
       });
 
@@ -60,7 +59,31 @@ describe('Game', () => {
         expect(() => Game.parseTurnString(invalidMoveStringC)).to.throw(SyntaxError);
       });
 
-    })
+    });
+
+  });
+
+  describe('static createBoard', () => {
+
+    it('should return an array at the top level', () => {
+      expect(Game.createBoard({ x: 1, y: 1 })).to.be.an.instanceOf(Array);
+    });
+
+    it('should return an array at the middle level', () => {
+      expect(Game.createBoard({ x: 1, y: 1 })[0]).to.be.an.instanceOf(Array);
+    });
+    
+    it('should return an array at the bottom level', () => {
+      expect(Game.createBoard({ x: 1, y: 1 })[0][0]).to.be.an.instanceOf(Array);
+    });
+    
+    it('should return as many columns as the passed x value', () => {
+      expect(Game.createBoard({ x: 10, y: 1 }).length).to.equal(10);
+    });
+
+    it('should return as many rows as the passed y value', () => {
+      expect(Game.createBoard({ x: 1, y: 10 })[0].length).to.equal(10);
+    });
 
   });
 
