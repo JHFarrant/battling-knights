@@ -7,6 +7,7 @@ class Knight {
       baseAttack: 1.0,
       baseDefence: 1.0,
       item: null,
+      locationHistory: [],
       name,
       position: startPosition,
       status: 'ALIVE'
@@ -32,11 +33,21 @@ class Knight {
   }
 
   /**
-   * Method to update knights positon based on passed direction.
+   * Method equips the passed item to the knights inventory
+   * @param {Item} item 
+   */
+  equipItem(item) {
+    this.item = item;
+  }
+
+  /**
+   * Method to update knights positon based on passed direction. Also updates location history.
    * @param {string} direction - N | E | S | W
    */
   move(direction) {
-    let { position: { x, y } } = this;
+    let { position } = this;
+    this.locationHistory.push(position);
+    let { x, y } = position;
     switch (direction) {
       case 'N':
         x--;
