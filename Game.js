@@ -6,13 +6,16 @@ class Game {
    * Creates game instance from game config object
    * @param {object} gameConfig - turns, knights, items, boardSize
    */
-  constructor({ turns, knights, items, boardSize }) {
+  constructor({ turns, knights = {}, items = {}, boardSize }) {
     Object.assign(this, {
       board: Game.createBoard(boardSize),
       items,
       knights,
       turns
     });
+
+    Object.values(knights).forEach((knight) => this.placeOnBoard(knight));
+    Object.values(items).forEach((item) => this.placeOnBoard(item));
 
   }
 
@@ -49,6 +52,15 @@ class Game {
       return { knight, direction };
     });
     return turns;
+  }
+
+  /**
+   * Places game pieces (items/knights) on board based on their position value
+   * @param {Knight|Item} piece - custom class with position object
+   */
+  placeOnBoard(piece) {
+    const { x, y } = piece.position;
+    this.board[x][y].push(piece);
   }
 
   /**
