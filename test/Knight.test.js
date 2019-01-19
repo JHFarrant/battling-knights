@@ -204,4 +204,21 @@ describe('Knight', () => {
 
   });
 
+  describe('die', () => {
+
+    it('should set the knight\'s status to DEAD', () => {
+      const knight = new Knight();
+      knight.die();
+      expect(knight.status).to.equal('DEAD');
+    });
+
+    it('should remove an equipped item', () => {
+      const knight = new Knight();
+      knight.equipItem(new Item());
+      knight.die();
+      expect(knight.item).to.be.null;
+    });
+
+  });
+
 });
