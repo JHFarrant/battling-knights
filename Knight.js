@@ -22,6 +22,28 @@ class Knight {
     const attackModifier = item ? item.attack : 0;
     return baseAttack + attackModifier;
   }
+
+  /**
+   * Method to drop equipped item
+   * @param {object} position - position to drop item to
+   */
+  dropItem(position = this.position) {
+    const { item } = this;
+    Object.assign(item, {
+      position,
+      equipped: false
+    });
+    this.item = null;
+  }
+
+  /**
+   * Method drowns knights, removing them from the game
+   */
+  drown() {
+    if (this.item) this.dropItem(this.locationHistory.slice(-1));
+    this.status = 'DROWNED';
+    this.position = null;
+  }
   
   /**
    * Getter returns current actual defence score based on baseDefence and item modifier
