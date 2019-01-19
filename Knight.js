@@ -2,7 +2,7 @@
  * Knight class, tracks state and invokes methods for individual knights on their turns
  */
 class Knight {
-  constructor({ name, startPosition }) {
+  constructor({ name, startPosition } = {}) {
     Object.assign(this, {
       baseAttack: 1.0,
       baseDefence: 1.0,
