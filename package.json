@@ -1,0 +1,17 @@
+{
+  "name": "battling-knights",
+  "version": "1.0.0",
+  "description": "tech test for bboxx",
+  "main": "index.js",
+  "repository": "https://github.com/jdLYNC/battling-knights",
+  "author": "jdLYNC <joshlynch@live.co.uk>",
+  "license": "MIT",
+  "scripts": {
+    "test": "mocha ./test/*.test.js"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "jsdoc": "^3.5.5",
+    "mocha": "^5.2.0"
+  }
+}
