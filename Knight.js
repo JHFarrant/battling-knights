@@ -66,7 +66,7 @@ class Knight {
 
   /**
    * Method for finding free items in the knights space
-   * @param {array} board 
+   * @param {array} space
    */
   findItem(space) {
     const items = space.filter(el => el instanceof Item);
@@ -97,6 +97,24 @@ class Knight {
     }
     Object.assign(this.position, { x, y });
   }
+
+  /**
+   * Static method for selecting prefered item from available items. Prefers attack over defence
+   * @param {array} - array of items
+   * @return {Item} - best available item
+   */
+  static selectItem(items) {
+    const [bestItem] = items.sort((itemA, itemB) => {
+      const attackValue = itemB.attack - itemA.attack;
+      if (attackValue) return attackValue;
+      else {
+        const defenceValue = itemB.defence - itemA.defence;
+        return defenceValue;
+      }
+    });
+    return bestItem;
+  }
+
 }
 
 module.exports = Knight;
