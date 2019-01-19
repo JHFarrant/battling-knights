@@ -121,4 +121,40 @@ describe('Knight', () => {
 
   });
 
+  describe('findItem', () => {
+
+    let knight5 = null;
+
+    beforeEach(() => {
+      knight5 = new Knight();
+    });
+    
+    it('should return an array', () => {
+      expect(knight5.findItem([])).to.be.an.instanceOf(Array);
+    });
+
+    it('should return an empty array if no items in space', () => {
+      expect(knight5.findItem([])).to.be.an.instanceOf(Array).that.is.empty;
+    });
+    
+    it('should return an array with a single item in if one item in space', () => {
+      expect(knight5.findItem([new Item()]).length).to.equal(1);
+    });
+    
+    it('should return an array with multiple items in if multiple items in space', () => {
+      const item1 = new Item('Axe');
+      const item2 = new Item('Dagger');
+      const item3 = new Item('Helmet');
+      const space = [item1, item2, item3]
+      expect(knight5.findItem(space)[0]).to.equal(item1);
+      expect(knight5.findItem(space)[1]).to.equal(item2);
+      expect(knight5.findItem(space)[2]).to.equal(item3);
+    });
+
+    it('should not return any knights in the space', () => {
+      expect(knight5.findItem([knight5, new Item()]).length).to.equal(1);
+    });
+
+  });
+
 });
