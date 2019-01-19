@@ -102,6 +102,18 @@ describe('Game', () => {
       game2.placeOnBoard(gamePiece);
       expect(game2.board[0][0][0]).to.equal(gamePiece);
     });
+    
+    it('should return true for a successfully placed piece', () => {
+      const gamePiece = { position: { x: 0, y: 0 } };
+      const pieceOnBoard = game2.placeOnBoard(gamePiece);
+      expect(pieceOnBoard).to.be.true;
+    });
+
+    it('should return false for an unplaceable piece', () => {
+      const gamePiece = { position: { x: -1, y: 0 } };
+      const pieceOnBoard = game2.placeOnBoard(gamePiece);
+      expect(pieceOnBoard).to.be.false;
+    });
 
   });
 
