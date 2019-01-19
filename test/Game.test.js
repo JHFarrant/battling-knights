@@ -90,10 +90,12 @@ describe('Game', () => {
   describe('placeOnBoard', () => {
 
     let game2 = null;
+    let gamePiece2 = { position: { x: 5, y: 5 } };
 
     beforeEach(() => {
       game2 = new Game({
-        boardSize: { x: 10, y: 10 }
+        boardSize: { x: 10, y: 10 },
+        knights: { gamePiece2 }
       });
     });
 
@@ -101,6 +103,12 @@ describe('Game', () => {
       const gamePiece = { position: { x: 0, y: 0 } };
       game2.placeOnBoard(gamePiece);
       expect(game2.board[0][0][0]).to.equal(gamePiece);
+    });
+
+    it('should not effect other pieces occupying the same space', () => {
+      const gamePiece = { position: { x: 5, y: 5 } };
+      game2.placeOnBoard(gamePiece);
+      expect(game2.board[5][5][0]).to.equal(gamePiece2);
     });
     
     it('should return true for a successfully placed piece', () => {
