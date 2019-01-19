@@ -1,4 +1,5 @@
 const { expect } = require('chai');
+const Game = require('../Game');
 
 const movesString = `GAME-START
 R:S
