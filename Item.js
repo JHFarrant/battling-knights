@@ -6,10 +6,28 @@ class Item {
     Object.assign(this, {
       attack,
       defence,
+      equipped: false,
       name,
       position: startPosition
     });
   }
+
+  /**
+   * Method to update item state as equipped
+   */
+  equip() {
+    this.equipped = true;
+  }
+
+  /**
+   * Method to update item state as unequipped and return it to the board
+   * @param {object} position - object with x y properties to return item to
+   */
+  drop(position) {
+    this.position = position;
+    this.equipped = false;
+  }
+
 }
 
 module.exports = Item;

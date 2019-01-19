@@ -31,10 +31,7 @@ class Knight {
    */
   dropItem(position = this.position) {
     const { item } = this;
-    Object.assign(item, {
-      position,
-      equipped: false
-    });
+    item.drop(position);
     this.item = null;
   }
 
@@ -61,6 +58,7 @@ class Knight {
    * @param {Item} item 
    */
   equipItem(item) {
+    item.equip();
     this.item = item;
   }
 
