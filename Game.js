@@ -64,6 +64,16 @@ class Game {
   }
 
   /**
+   * Removes game pieces from board, relies on the position object to find the piece
+   * @param {Knight|Item} piece - custom class with position object
+   */
+  removeFromBoard(piece) {
+    const { x, y } = piece.position;
+    const idx = this.board[x][y].indexOf(piece);
+    this.board[x][y].splice(idx, 1);
+  }
+
+  /**
    * Static method to validate knight and direction in step using validKnight and validDirection enums
    * @param {string} knight 
    * @param {string} direction 
