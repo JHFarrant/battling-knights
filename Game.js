@@ -55,12 +55,20 @@ class Game {
   }
 
   /**
-   * Places game pieces (items/knights) on board based on their position value
+   * Places game pieces (items/knights) on board based on their position value and returns bool based on success.
    * @param {Knight|Item} piece - custom class with position object
+   * @return {boolean} - true if piece placed, false if not
    */
   placeOnBoard(piece) {
     const { x, y } = piece.position;
-    this.board[x][y].push(piece);
+
+    const row = this.board[x];
+    const column = row ? row[y] : null;
+    if (column instanceof Array) {
+      column.push(piece);
+      return true;
+    }
+    else return false;
   }
 
   /**
