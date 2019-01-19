@@ -3,11 +3,34 @@
  */
 class Game {
   /**
-   * Creates game instance from array of turn objects
-   * @param {array} turns
+   * Creates game instance from game config object
+   * @param {object} gameConfig - turns, knights, items, boardSize
    */
-  constructor(turns) {
+  constructor({ turns, knights, items, boardSize }) {
+    Object.assign(this, {
+      board: Game.createBoard(boardSize),
+      items,
+      knights,
+      turns
+    });
 
+  }
+
+  /**
+   * Static function to create game board based on passed size object
+   * @param {object} boardSize - object with x and y props 
+   * @return {array} - game board as 3d array
+   */
+  static createBoard({ x, y }) {
+    const columns = Array.from({ length: x });
+    const board = columns.map(col => {
+      const row = Array.from({ length: y }).map(row => {
+        const space = [];
+        return space;
+      });
+      return row;
+    });
+    return board;
   }
 
   /**
