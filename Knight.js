@@ -26,6 +26,14 @@ class Knight {
   }
 
   /**
+   * Drops the knights item if equipped and updates Knight status to DEAD
+   */
+  die() {
+    if (this.item) this.dropItem();
+    this.status = 'DEAD';
+  }
+
+  /**
    * Method to drop equipped item
    * @param {object} position - position to drop item to
    */
