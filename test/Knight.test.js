@@ -157,4 +157,28 @@ describe('Knight', () => {
 
   });
 
+  describe('static selectItem', () => {
+
+    let item1 = new Item({ attack: 1 });
+    let item2 = new Item({ attack: 1, defence: 1 });
+    let item3 = new Item({ defence: 1 });
+    let item4 = new Item({ attack: 2 });
+    
+    it('should return an item', () => {
+      const items = [item1, item2, item3, item4];
+      expect(Knight.selectItem(items)).to.be.an.instanceOf(Item);
+    });
+    
+    it('should prefer items with strongest attack', () => {
+      const items = [item2, item3, item1, item4];
+      expect(Knight.selectItem(items)).to.equal(item4);
+    });
+    
+    it('should prefer items with highest overall stats', () => {
+      const items = [item3, item2, item1];
+      expect(Knight.selectItem(items)).to.equal(item2);
+    });
+
+  });
+
 });
