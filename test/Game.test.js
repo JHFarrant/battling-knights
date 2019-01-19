@@ -87,4 +87,22 @@ describe('Game', () => {
 
   });
 
+  describe('placeOnBoard', () => {
+
+    let game2 = null;
+
+    beforeEach(() => {
+      game2 = new Game({
+        boardSize: { x: 10, y: 10 }
+      });
+    });
+
+    it('should place the passed piece based on its position value', () => {
+      const gamePiece = { position: { x: 0, y: 0 } };
+      game2.placeOnBoard(gamePiece);
+      expect(game2.board[0][0][0]).to.equal(gamePiece);
+    });
+
+  });
+
 });
