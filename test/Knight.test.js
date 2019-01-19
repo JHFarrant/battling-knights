@@ -181,4 +181,27 @@ describe('Knight', () => {
 
   });
 
+  describe('findEnemy', () => {
+
+    let knight6 = null;
+
+    beforeEach(() => {
+      knight6 = new Knight();
+    });
+
+    it('it should return null if no enemy knights in space', () => {
+      expect(knight6.findEnemy([])).to.be.null;
+    });
+    
+    it('should return an instance of Knight if an enemy knight in space', () => {
+      const enemy = new Knight();
+      expect(knight6.findEnemy([knight6, enemy])).to.equal(enemy);
+    });
+
+    it('should not return the Knight it is called on', () => {
+      expect(knight6.findEnemy([knight6])).to.be.null;
+    });
+
+  });
+
 });
