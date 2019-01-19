@@ -30,6 +30,29 @@ class Knight {
     const defenceModifier = item ? item.defence : 0;
     return baseDefence + defenceModifier;
   }
+
+  /**
+   * Method to update knights positon based on passed direction.
+   * @param {string} direction - N | E | S | W
+   */
+  move(direction) {
+    let { position: { x, y } } = this;
+    switch (direction) {
+      case 'N':
+        x--;
+        break;
+      case 'E':
+        y++;
+        break;
+      case 'S':
+        x++;
+        break;
+      case 'W':
+        y--;
+        break;
+    }
+    Object.assign(this.position, { x, y });
+  }
 }
 
 module.exports = Knight;
