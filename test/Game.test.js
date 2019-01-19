@@ -105,4 +105,45 @@ describe('Game', () => {
 
   });
 
+  describe('removeFromBoard', () => {
+
+    let game3 = null;
+    let gamePiece1 = null;
+    let gamePiece2 = null;
+    let gamePiece3 = null;
+    let gamePiece4 = null;
+
+    beforeEach(() => {
+      gamePiece1 = { position: { x: 0, y: 0 } };
+      gamePiece2 = { position: { x: 9, y: 9 } };
+      gamePiece3 = { name: 'Axe', position: { x: 5, y: 5 } };
+      gamePiece4 = { name: 'Dagger', position: { x: 5, y: 5 } };
+
+      game3 = new Game({
+        boardSize: { x: 10, y: 10 },
+        knights: { gamePiece1, gamePiece2 },
+        items: { gamePiece3, gamePiece4 }
+      });
+    });
+
+    it('should remove the passed piece from the board', () => {
+      game3.removeFromBoard(gamePiece1);
+      expect(game3.board[0][0]).to.be.an.instanceOf(Array).that.is.empty;
+      game3.removeFromBoard(gamePiece2);
+      expect(game3.board[9][9]).to.be.an.instanceOf(Array).that.is.empty;
+    });
+
+    it('should not affect the other pieces on the board', () => {
+      game3.removeFromBoard(gamePiece1);
+      expect(game3.board[9][9][0]).to.equal(gamePiece2);
+    });
+
+    it('should only remove the targeted piece from a space with multiple pieces', () => {
+      game3.removeFromBoard(gamePiece4);
+      expect(game3.board[5][5].length).to.equal(1);
+      expect(game3.board[5][5][0]).to.equal(gamePiece3);
+    });
+
+  });
+
 });
