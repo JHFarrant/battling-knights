@@ -1,3 +1,5 @@
+const Item = require('./Item');
+
 /**
  * Knight class, tracks state and invokes methods for individual knights on their turns
  */
@@ -60,6 +62,15 @@ class Knight {
    */
   equipItem(item) {
     this.item = item;
+  }
+
+  /**
+   * Method for finding free items in the knights space
+   * @param {array} board 
+   */
+  findItem(space) {
+    const items = space.filter(el => el instanceof Item);
+    return items;
   }
 
   /**
