@@ -71,6 +71,18 @@ class Knight {
   }
 
   /**
+   * Fight method invokes the die method on the weaker knight
+   * @param {Knight} enemy 
+   */
+  fight(enemy) {
+    const surpriseBonus = 0.5;
+    const attackPower = this.attack + surpriseBonus;
+
+    if (attackPower > enemy.defence) enemy.die();
+    else this.die();
+  }
+
+  /**
    * Method for finding enemy knights in the knight's space
    * @param {array} space 
    */
