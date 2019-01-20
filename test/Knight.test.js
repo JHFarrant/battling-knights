@@ -221,4 +221,52 @@ describe('Knight', () => {
 
   });
 
+  describe('fight', () => {
+
+    let knight7 = null;
+    let knight8 = null;
+    let defenceItem = new Item({ defence: 2 });
+    let attackItem = new Item({ attack: 2 });
+
+    beforeEach(() => {
+      knight7 = new Knight();
+      knight8 = new Knight();
+    });
+
+    it('should set the knight\'s status to DEAD if the enemy had greater defence', () => {
+      knight8.equipItem(defenceItem);
+      knight7.fight(knight8);
+      expect(knight7.status).to.equal('DEAD');
+    });
+
+    it('should leave the enemy\'s status unchanged if the enemy had greater defence', () => {
+      knight8.equipItem(defenceItem);
+      knight7.fight(knight8);
+      expect(knight8.status).to.equal('ALIVE');
+    });
+    
+    it('should set the enemy\'s status to DEAD if the knight had greater attack', () => {
+      knight7.equipItem(attackItem);
+      knight7.fight(knight8);
+      expect(knight8.status).to.equal('DEAD');
+    });
+
+    it('should set the enemy\'s status to DEAD if the knight had equal attack (due to surpise bonus)', () => {
+      knight7.fight(knight8);
+      expect(knight8.status).to.equal('DEAD');
+    });
+
+    it('should leave the knight\'s status unchanged if the enemy had equal or lesser defence', () => {
+      knight7.fight(knight8);
+      expect(knight7.status).to.equal('ALIVE');
+    });
+
+    it('should not be affected by the enemy\'s attack', () => {
+      knight8.equipItem(attackItem);
+      knight7.fight(knight8);
+      expect(knight8.status).to.equal('DEAD');
+    });
+
+  });
+
 });
