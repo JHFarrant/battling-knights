@@ -4,8 +4,8 @@
 class Item {
   constructor({ name, attack = 0, defence = 0, startPosition } = {}) {
     Object.assign(this, {
-      attack,
-      defence,
+      attack: parseFloat(attack),
+      defence: parseFloat(defence),
       equipped: false,
       name,
       position: startPosition
@@ -15,7 +15,8 @@ class Item {
   /**
    * Method to update item state as equipped
    */
-  equip() {
+  equip(knight) {
+    this.position = knight.position;
     this.equipped = true;
   }
 
@@ -24,7 +25,7 @@ class Item {
    * @param {object} position - object with x y properties to return item to
    */
   drop(position) {
-    this.position = position;
+    this.position = Object.assign({}, position);
     this.equipped = false;
   }
 

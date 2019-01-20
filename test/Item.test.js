@@ -1,13 +1,21 @@
 const { expect } = require('chai');
 const Item = require('../Item');
+const Knight = require('../Knight');
 
 describe('Item', () => {
+  
+  let knight = null;
+
+  beforeEach(() => {
+    knight = new Knight({ startPosition: { x: 1, y: 1 }})
+  });
 
   describe('equip', () => {
 
+
     it('should set equipped to true', () => {
       const item = new Item();
-      item.equip();
+      item.equip(knight);
       expect(item.equipped).to.be.true;
     });
     
@@ -19,7 +27,7 @@ describe('Item', () => {
 
     beforeEach(() => {
       item = new Item({ position: { x: 2, y: 2 } });
-      item.equip();
+      item.equip(knight);
     });
     
     it('should set equipped to false', () => {
