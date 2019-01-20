@@ -73,6 +73,15 @@ class Game {
   }
 
   /**
+   * Removes all the remaining turns for a dead who has either drowned or died.
+   * @param {string} deadKnight - name property from the dead knight
+   */
+  removeRemainingTurns(deadKnight) {
+    const { turns } = this;
+    this.turns = turns.filter(({ knight }) => knight !== deadKnight);
+  }
+
+  /**
    * Removes game pieces from board, relies on the position object to find the piece
    * @param {Knight|Item} piece - custom class with position object
    */
