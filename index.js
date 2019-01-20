@@ -12,7 +12,7 @@ const rl = readline.createInterface({
 
 console.log(`Welcome to Knights Battle!\n`);
 
-rl.question('To begin battling your knights enter the filepath to your moves.txt:\n', (path) => {
+rl.question('To begin battling your knights enter the filepath to your moves.txt (hit return to use default):\n', (path) => {
 
   if (!path) path = './moves.txt';
 
@@ -78,7 +78,7 @@ rl.question('To begin battling your knights enter the filepath to your moves.txt
 
       game.play();
 
-      console.log(game.createResultsObject());
+      // console.log(game.createResultsObject());
 
       fs.writeFile('./final_state.json', JSON.stringify(game.createResultsObject()), (err) => {
         if (err) throw err;
