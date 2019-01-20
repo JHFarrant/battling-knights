@@ -30,7 +30,11 @@ class Knight {
    */
   die() {
     if (this.item) this.dropItem();
-    this.status = 'DEAD';
+    Object.assign(this, {
+      baseAttack: 0,
+      baseDefence: 0,
+      status: 'DEAD'
+    });
   }
 
   /**
@@ -48,8 +52,12 @@ class Knight {
    */
   drown() {
     if (this.item) this.dropItem(this.locationHistory.slice(-1));
-    this.status = 'DROWNED';
-    this.position = null;
+    Object.assign(this, {
+      baseAttack: 0,
+      baseDefence: 0,
+      position: null,
+      status: 'DROWNED'
+    });
   }
   
   /**
