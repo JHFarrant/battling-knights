@@ -11,7 +11,8 @@ class Game {
       board: Game.createBoard(boardSize),
       items,
       knights,
-      turns
+      turns,
+      turnHistory: []
     });
 
     Object.values(knights).forEach((knight) => this.placeOnBoard(knight));
@@ -24,7 +25,7 @@ class Game {
    * @param {object} boardSize - object with x and y props 
    * @return {array} - game board as 3d array
    */
-  static createBoard({ x, y }) {
+  static createBoard({ x = 8, y = 8 } = {}) {
     const columns = Array.from({ length: x });
     const board = columns.map(col => {
       const row = Array.from({ length: y }).map(row => {

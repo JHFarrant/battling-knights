@@ -166,4 +166,40 @@ describe('Game', () => {
 
   });
 
+  describe('removeRemainingTurns', () => {
+
+    it('should remove all remaining turns for the passed knight', () => {
+
+      const game = new Game({
+        turns: [
+          { knight: 'R', direction: 'N' },
+          { knight: 'R', direction: 'E' },
+          { knight: 'R', direction: 'E' }
+        ]
+      });
+
+      game.removeRemainingTurns('R');
+      
+      expect(game.turns.length).to.equal(0);
+      expect(game.turns[0]).to.be.undefined;
+    });
+    
+    it('should not affect the turns of other knights', () => {
+      
+      const game = new Game({
+        turns: [
+          { knight: 'R', direction: 'N' },
+          { knight: 'Y', direction: 'E' },
+          { knight: 'R', direction: 'E' }
+        ]
+      });
+      
+      game.removeRemainingTurns('R');
+
+      expect(game.turns.length).to.equal(1);
+      expect(game.turns[0].knight).to.equal('Y');
+    });
+
+  });
+
 });
