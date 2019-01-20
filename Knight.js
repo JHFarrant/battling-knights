@@ -103,7 +103,7 @@ class Knight {
    * @param {array} space 
    */
   findEnemy(space) {
-    const [enemy = null] = space.filter(el => el instanceof Knight && el !== this);
+    const [enemy = null] = space.filter(el => el instanceof Knight && el !== this && el.status === 'ALIVE');
     return enemy;
   }
 
