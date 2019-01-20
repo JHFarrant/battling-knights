@@ -1,3 +1,5 @@
+const Knight = require('./Knight');
+
 /**
  * Main game class, tracks the overall game state, initiates each turn, and exports final output.
  */
@@ -38,6 +40,42 @@ class Game {
   }
 
   /**
+   * Creates results object of game outcome to be saved as final_state.json
+   */
+  createResultsObject() {
+    const { knights, items } = this;
+
+    const knightResultsArr = Object.values(knights)
+      .map(({
+        name, position, status, item, attack, defence
+      }) => ({
+        [name]: [
+          position && [position.x, position.y],
+          status,
+          item && item.name,
+          attack,
+          defence
+        ]
+      }));
+
+    const itemResultsArr = Object.values(items)
+      .map(({
+        name, position, equipped
+      }) => ({
+        [name]: [
+          position && [position.x, position.y],
+          equipped
+        ]
+      }));
+
+    const resultObj = [...knightResultsArr, ...itemResultsArr]
+      .reduce((acc, cur) => Object.assign(acc, cur), {});
+
+    return resultObj;
+
+  }
+
+  /**
    * Creates array of turn objects from txt turn string.
    * @param {string} turnString
    * @return {array} - turns
@@ -53,6 +91,14 @@ class Game {
       return { knight, direction };
     });
     return turns;
+  }
+
+  /**
+   * Method to playthrough full game, recursively calls self until their are no more turns to play 
+   */
+  play() {
+    this.playTurn();
+    if (0 < this.turns.length) this.play();
   }
 
   /**
@@ -73,12 +119,83 @@ class Game {
   }
 
   /**
-   * Removes all the remaining turns for a dead who has either drowned or died.
+   * Handles combat phase of game turn, finding enemy, fighting and updating board with result
+   * @param {Knight} knight 
+   * @param {array}} space 
+   */
+  playCombatPhase(knight, space) {
+    const enemy = knight.findEnemy(space);
+    if (enemy) {
+      const [loser, item] = knight.fight(enemy);
+      this.removeRemainingTurns(loser.name);
+      if (item) this.placeOnBoard(item);
+    }
+  }
+
+  /**
+   * Handles item phase of game turn, finding, equipping and removing item from board
+   * @param {Knight} knight - active knight for this turn
+   * @param {array} space - space occupied by the knight
+   */
+  playItemPhase(knight, space) {
+    if (knight.item) return null;
+
+    const items = knight.findItem(space);
+    if (items.length) {
+      const item = Knight.selectItem(items);
+      if (item) {
+        knight.equipItem(item);
+        this.removeFromBoard(item);
+      }
+    }
+  }
+
+  /**
+   * Handles movement phase of game turn, including possible drowning, returns success or failure on move
+   * @param {Knight} knight - active knight for this turn
+   * @param {string} direction - direction to move (N | E | S | W)
+   * @return {boolean} - returns if movement was success
+   */
+  playMovementPhase(knight, direction) {
+    this.removeFromBoard(knight);
+    knight.move(direction);
+    const moveSuccessful = this.placeOnBoard(knight);
+    if (!moveSuccessful) {
+      const item = knight.drown();
+      if (item) this.placeOnBoard(item);
+      this.removeRemainingTurns(knight.name);
+    }
+    return moveSuccessful;
+  }
+
+  /**
+   * Method for initiating each turn and executing the associated actions via the phase methods, also updates the turns array
+   */
+  playTurn() {
+    const [turn, ...remainingTurns] = this.turns;
+    this.turnHistory.push(turn);
+    this.turns = remainingTurns;
+
+    const { knight: knightName, direction } = turn;
+    const knight = this.knights[knightName];
+
+    const moveSuccessful = this.playMovementPhase(knight, direction);
+    if (moveSuccessful) {
+      const { x, y } = knight.position;
+      const space = this.board[x][y];
+      this.playItemPhase(knight, space);
+      this.playCombatPhase(knight, space);
+    }
+
+  }
+
+  /**
+   * Removes all the remaining turns for a dead knight who has either drowned or died
    * @param {string} deadKnight - name property from the dead knight
    */
   removeRemainingTurns(deadKnight) {
     const { turns } = this;
-    this.turns = turns.filter(({ knight }) => knight !== deadKnight);
+    this.turns = turns.filter(({ knight }) => knight !== deadKnight.slice(0, 1));
   }
 
   /**
