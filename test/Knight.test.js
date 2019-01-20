@@ -119,6 +119,18 @@ describe('Knight', () => {
       expect(knight4.position).to.be.null;
     });
 
+    it('should set the knight\'s attack to 0', () => {
+      const knight = new Knight();
+      knight.drown();
+      expect(knight.attack).to.equal(0);
+    });
+
+    it('should set the knight\'s defence to 0', () => {
+      const knight = new Knight();
+      knight.drown();
+      expect(knight.attack).to.equal(0);
+    });
+
   });
 
   describe('findItem', () => {
@@ -217,6 +229,18 @@ describe('Knight', () => {
       knight.equipItem(new Item());
       knight.die();
       expect(knight.item).to.be.null;
+    });
+    
+    it('should set the knight\'s attack to 0', () => {
+      const knight = new Knight();
+      knight.die();
+      expect(knight.attack).to.equal(0);
+    });
+    
+    it('should set the knight\'s defence to 0', () => {
+      const knight = new Knight();
+      knight.die();
+      expect(knight.attack).to.equal(0);
     });
 
   });
