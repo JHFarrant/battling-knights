@@ -48,7 +48,7 @@ describe('Knight', () => {
 
     it('should push the last position to locationHistory', () => {
       knight.move('N');
-      expect(knight.locationHistory[0].x).to.equal(4);
+      expect(knight.locationHistory[0].x).to.equal(5);
     });
   
   });
@@ -110,6 +110,7 @@ describe('Knight', () => {
     });
 
     it('should remove any item from the knights inventory', () => {
+      knight4.equipItem(new Item());
       knight4.drown();
       expect(knight4.item).to.be.null;
     });
