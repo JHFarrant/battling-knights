@@ -27,37 +27,44 @@ class Knight {
 
   /**
    * Drops the knights item if equipped and updates Knight status to DEAD
+   * @return {array} - returns an array containing the dead knight in position 0, and their item in position 1
    */
   die() {
-    if (this.item) this.dropItem();
+    const { item = null } = this;
+    if (item) this.dropItem();
     Object.assign(this, {
       baseAttack: 0,
       baseDefence: 0,
       status: 'DEAD'
     });
+    return [this, item];
   }
 
   /**
-   * Method to drop equipped item
+   * Method to drop equipped item, returns item
    * @param {object} position - position to drop item to
+   * @return {Item} the dropped item
    */
   dropItem(position = this.position) {
     const { item } = this;
     item.drop(position);
     this.item = null;
+    return item;
   }
 
   /**
-   * Method drowns knights, removing them from the game
+   * Method drowns knights, removing them from the game, returns item if equipped
+   * @return {Item|null} 
    */
   drown() {
-    if (this.item) this.dropItem(this.locationHistory.slice(-1));
     Object.assign(this, {
       baseAttack: 0,
       baseDefence: 0,
       position: null,
       status: 'DROWNED'
     });
+    if (this.item) return this.dropItem(this.locationHistory.slice(-1)[0]);
+    else return null;
   }
   
   /**
@@ -74,20 +81,21 @@ class Knight {
    * @param {Item} item 
    */
   equipItem(item) {
-    item.equip();
+    item.equip(this);
     this.item = item;
   }
 
   /**
    * Fight method invokes the die method on the weaker knight
    * @param {Knight} enemy 
+   * @return {array} - returns an array containing the losing (dead) knight and their item
    */
   fight(enemy) {
     const surpriseBonus = 0.5;
     const attackPower = this.attack + surpriseBonus;
 
-    if (attackPower > enemy.defence) enemy.die();
-    else this.die();
+    if (attackPower > enemy.defence) return enemy.die();
+    else return this.die();
   }
 
   /**
@@ -113,8 +121,8 @@ class Knight {
    * @param {string} direction - N | E | S | W
    */
   move(direction) {
-    let { position } = this;
-    this.locationHistory.push(position);
+    let { position, locationHistory } = this;
+    this.locationHistory = [...locationHistory, Object.assign({}, position)];
     let { x, y } = position;
     switch (direction) {
       case 'N':
